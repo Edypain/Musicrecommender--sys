@@ -75,7 +75,7 @@ async def startup_event():
         raise e
 
 async def preprocess_data():
-    """Run your existing preprocessing pipeline"""
+    """Running existing preprocessing pipeline"""
     global feature_matrix, similarity_matrix, song_db, scaler, pca, kmeans, svd, valid_files, moods, clusters
     
     Audio_dir = "/content/Music_folder"
