@@ -7,9 +7,7 @@ import os
 from sklearn.metrics.pairwise import cosine_similarity
 import joblib  # for saving/loading models
 import uvicorn
-# Note: librosa, sklearn preprocessing, PCA, KMeans are no longer needed
-# in main.py because we are only LOADING models, not training them.
-# We also removed multiprocessing.
+
 
 app = FastAPI(
     title="Music Recommender API",
@@ -17,8 +15,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Global variables to store your models and data
-# feature_matrix is no longer needed, as similarity_matrix is pre-calculated
+
 similarity_matrix = None
 song_db = None
 svd = None

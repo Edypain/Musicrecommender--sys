@@ -1,0 +1,5 @@
+file,mood,cluster,tempo,rms,centroid
+song_a.mp3,happy,0,120.0,0.5,2000.0
+song_b.mp3,calm,0,95.0,0.3,1500.0
+song_c.mp3,sad,1,75.0,0.2,1200.0
+song_d.mp3,energetic,1,140.0,0.8,2600.0

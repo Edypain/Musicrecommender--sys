@@ -1,0 +1,17 @@
+# Ignore local development files and heavy artifacts
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.vscode/
+.env
+.env.*
+/tests/
+scripts/
+.git/
+.gitignore
+*.md
+
+# Keep models if you want them deployed; otherwise they'll be fetched by MODEL_BASE_URL
+# models/

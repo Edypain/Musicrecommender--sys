@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Music Recommender</title>
+  <style>
+    body{font-family:Segoe UI, Roboto, Arial;max-width:800px;margin:2rem auto;padding:1rem}
+    input,select{padding:.4rem;margin:.2rem 0;width:100%}
+    button{padding:.6rem 1rem}
+    pre{background:#f6f8fa;padding:1rem;border-radius:6px}
+  </style>
+</head>
+<body>
+  <h1>Music Recommender</h1>
+  <p>Pick a seed song by name (partial match allowed) or index. If the backend hasn't loaded model files, you'll see an error.</p>
+  <label>Song name (partial):</label>
+  <input id="songName" placeholder="e.g. my_favorite_song.mp3" />
+  <label>Song index (optional):</label>
+  <input id="songIndex" type="number" min="0" placeholder="0" />
+  <label>User ID (integer):</label>
+  <input id="userId" type="number" value="1" />
+  <label>Number of recommendations:</label>
+  <input id="numRec" type="number" value="5" />
+  <label>Same cluster only:</label>
+  <select id="sameCluster"><option value="true">Yes</option><option value="false">No</option></select>
+  <button id="run">Get Recommendations</button>
+
+  <h3>Result</h3>
+  <pre id="output">(waiting)</pre>
+
+  <script>
+    const out = document.getElementById('output')
+    document.getElementById('run').addEventListener('click', async ()=>{
+      out.textContent = 'Loading...'
+      const songName = document.getElementById('songName').value
+      const songIndex = document.getElementById('songIndex').value
+      const userId = parseInt(document.getElementById('userId').value || '1')
+      const numRec = parseInt(document.getElementById('numRec').value || '5')
+      const sameCluster = document.getElementById('sameCluster').value === 'true'
+
+      const body = { user_id: userId, num_recommendations: numRec, same_cluster: sameCluster }
+      if (songIndex) body.song_index = parseInt(songIndex)
+      else if (songName) body.song_name = songName
+      else { out.textContent = 'Please provide song name or index'; return }
+
+      try {
+        const resp = await fetch('/api/recommend', {
+          method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body)
+        })
+        const data = await resp.json()
+        out.textContent = JSON.stringify({status: resp.status, body: data}, null, 2)
+      } catch (err) {
+        out.textContent = 'Request error: ' + err.message
+      }
+    })
+  </script>
+</body>
+</html>
